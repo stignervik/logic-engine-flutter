@@ -17,24 +17,36 @@ class CustomDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-            child: Text('Drawer Header'),
+            child: Text('Menu'),
           ),
           ListTile(
-            title: const Text('Item 1'),
+            title: const Text('Main'),
             onTap: () {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Navigator.of(context).pushReplacementNamed('/');
             },
           ),
           ListTile(
-            title: const Text('Item 2'),
+            title: const Text('Systems'),
             onTap: () {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Navigator.of(context).pushReplacementNamed('/systems');
+            },
+          ),
+          ListTile(
+            title: const Text('Units'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              // Navigator.pop(context);
+              Navigator.of(context).pushReplacementNamed('/units');
             },
           ),
         ],

@@ -8,7 +8,7 @@ class SystemsScreens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Units')),
+      appBar: AppBar(title: const Text('Systems')),
       body: Center(
         child: ElevatedButton(
           child: const Text('Units'),

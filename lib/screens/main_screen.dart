@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logic_engine_flutter/widgets/drawer.dart';
-import './units_screen.dart';
+import 'package:logic_engine_flutter/screens/units_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

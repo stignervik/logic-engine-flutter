@@ -8,7 +8,7 @@ class UnitsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Systems')),
+      appBar: AppBar(title: const Text('Units')),
       body: Center(
         child: ElevatedButton(
           child: const Text('Systems'),
