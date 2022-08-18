@@ -25,7 +25,6 @@ class CustomDrawer extends StatelessWidget {
               // Update the state of the app
               // ...
               // Then close the drawer
-              // Navigator.pop(context);
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
@@ -35,7 +34,6 @@ class CustomDrawer extends StatelessWidget {
               // Update the state of the app
               // ...
               // Then close the drawer
-              // Navigator.pop(context);
               Navigator.of(context).pushReplacementNamed('/systems');
             },
           ),
