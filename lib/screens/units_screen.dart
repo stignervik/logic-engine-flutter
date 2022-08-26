@@ -3,6 +3,8 @@ import 'package:logic_engine_flutter/widgets/drawer.dart';
 import 'package:logic_engine_flutter/models/unit.dart';
 import 'package:logic_engine_flutter/widgets/unitlisttile.dart';
 import 'package:logic_engine_flutter/widgets/footer.dart';
+import 'package:provider/provider.dart';
+import 'package:logic_engine_flutter/providers/units.dart';
 
 // ignore: must_be_immutable
 class UnitsScreen extends StatefulWidget {
@@ -10,13 +12,6 @@ class UnitsScreen extends StatefulWidget {
   List<Unit> filteredUnits;
   UnitsScreen({Key? key, required this.units, required this.filteredUnits})
       : super(key: key) {
-    units = List<Unit>.generate(
-        10001,
-        (i) => Unit(
-            id: '$i',
-            name: 'Unit$i',
-            unitClass: 'Unit',
-            unitFunciton: 'Control'));
     filteredUnits = List<Unit>.empty();
   }
 
@@ -30,16 +25,15 @@ class _UnitsScreenState extends State<UnitsScreen> {
   @override
   void initState() {
     widget.filteredUnits = widget.filteredUnits.toList();
-    widget.filteredUnits.addAll(widget.units);
     super.initState();
   }
 
-  void filterSearchResults(String query) {
+  void filterSearchResults(String query, Units units) {
     List<Unit> dummySearchList = List<Unit>.empty(growable: true);
-    dummySearchList.addAll(widget.units);
+    dummySearchList.addAll(units.units);
     if (query.isNotEmpty) {
       final filterList =
-          widget.units.where((unit) => unit.name.contains(query)).toList();
+          units.units.where((unit) => unit.name.contains(query)).toList();
       setState(() {
         if (widget.filteredUnits.isNotEmpty) {
           widget.filteredUnits.clear();
@@ -51,13 +45,19 @@ class _UnitsScreenState extends State<UnitsScreen> {
         if (widget.filteredUnits.isNotEmpty) {
           widget.filteredUnits.clear();
         }
-        widget.filteredUnits.addAll(widget.units);
+        widget.filteredUnits.addAll(units.units);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final unitsData = Provider.of<Units>(context);
+    filterSearchResults("", unitsData);
+
+    // ignore: avoid_print
+    print('units length: ${unitsData.units.length}');
+    // final units = unitsData.units;
     return Scaffold(
       appBar: AppBar(title: const Text('Units')),
       body: Column(
@@ -66,7 +66,7 @@ class _UnitsScreenState extends State<UnitsScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                filterSearchResults(value);
+                filterSearchResults(value, unitsData);
               },
               controller: editingController,
               decoration: const InputDecoration(
