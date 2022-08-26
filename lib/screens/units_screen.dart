@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logic_engine_flutter/widgets/drawer.dart';
 import 'package:logic_engine_flutter/models/unit.dart';
 import 'package:logic_engine_flutter/widgets/unitlisttile.dart';
-// import 'package:footer/footer.dart';
-// import 'package:footer/footer_view.dart';
+import 'package:logic_engine_flutter/widgets/footer.dart';
 
 // ignore: must_be_immutable
 class UnitsScreen extends StatefulWidget {
@@ -40,19 +39,19 @@ class _UnitsScreenState extends State<UnitsScreen> {
     dummySearchList.addAll(widget.units);
     if (query.isNotEmpty) {
       final filterList =
-          widget.units.where((unit) => unit.name.contains(query));
+          widget.units.where((unit) => unit.name.contains(query)).toList();
       setState(() {
         if (widget.filteredUnits.isNotEmpty) {
           widget.filteredUnits.clear();
-          widget.filteredUnits.addAll(filterList);
         }
+        widget.filteredUnits.addAll(filterList);
       });
     } else {
       setState(() {
         if (widget.filteredUnits.isNotEmpty) {
           widget.filteredUnits.clear();
-          widget.filteredUnits.addAll(widget.units);
         }
+        widget.filteredUnits.addAll(widget.units);
       });
     }
   }
@@ -96,6 +95,7 @@ class _UnitsScreenState extends State<UnitsScreen> {
               },
             ),
           ),
+          const Footer(),
         ],
       ),
       drawer: const CustomDrawer(),

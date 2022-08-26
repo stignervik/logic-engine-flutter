@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logic_engine_flutter/widgets/drawer.dart';
 import 'package:logic_engine_flutter/screens/units_screen.dart';
+import 'package:logic_engine_flutter/widgets/footer.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -11,21 +12,27 @@ class MainScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Main page'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Units'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => UnitsScreen(
-                        units: const [],
-                        filteredUnits: const [],
-                      )),
-            );
-          },
-        ),
-      ),
+      body: Column(children: [
+        Expanded(
+            child: Column(
+          children: [
+            ElevatedButton(
+              child: const Text('Units'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UnitsScreen(
+                            units: const [],
+                            filteredUnits: const [],
+                          )),
+                );
+              },
+            ),
+          ],
+        )),
+        const Footer(),
+      ]),
       drawer: const CustomDrawer(),
     );
   }

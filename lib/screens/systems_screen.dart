@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logic_engine_flutter/widgets/drawer.dart';
 import './units_screen.dart';
+import 'package:logic_engine_flutter/widgets/footer.dart';
 
 class SystemsScreens extends StatelessWidget {
   const SystemsScreens({Key? key}) : super(key: key);
@@ -9,21 +10,25 @@ class SystemsScreens extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Systems')),
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Units'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => UnitsScreen(
-                        units: const [],
-                        filteredUnits: const [],
-                      )),
-            );
-          },
-        ),
-      ),
+      body: Column(children: [
+        Expanded(
+            child: Column(children: [
+          ElevatedButton(
+            child: const Text('Units'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UnitsScreen(
+                          units: const [],
+                          filteredUnits: const [],
+                        )),
+              );
+            },
+          ),
+        ])),
+        const Footer(),
+      ]),
       drawer: const CustomDrawer(),
     );
   }

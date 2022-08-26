@@ -47,6 +47,12 @@ class CustomDrawer extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed('/units');
             },
           ),
+          ListTile(
+            title: const Text('Test'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/test');
+            },
+          ),
         ],
       ),
     );

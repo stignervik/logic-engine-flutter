@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logic_engine_flutter/screens/main_screen.dart';
 import 'package:logic_engine_flutter/screens/systems_screen.dart';
 import 'package:logic_engine_flutter/screens/units_screen.dart';
+import 'package:logic_engine_flutter/screens/test_screen.dart';
 import './screens/main_screen.dart';
 
 void main() {
@@ -29,6 +30,11 @@ void main() {
                   filteredUnits: const [],
                 ),
             settings: settings);
+      }
+
+      if (settings.name == '/test') {
+        return MaterialPageRoute(
+            builder: (context) => const Test(), settings: settings);
       }
 
       return MaterialPageRoute(builder: (context) => const UnknownScreen());
