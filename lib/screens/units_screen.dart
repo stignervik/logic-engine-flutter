@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logic_engine_flutter/widgets/drawer.dart';
 import 'package:logic_engine_flutter/models/unit.dart';
 import 'package:logic_engine_flutter/widgets/unitlisttile.dart';
+// import 'package:footer/footer.dart';
+// import 'package:footer/footer_view.dart';
 
 // ignore: must_be_immutable
 class UnitsScreen extends StatefulWidget {
@@ -10,7 +12,7 @@ class UnitsScreen extends StatefulWidget {
   UnitsScreen({Key? key, required this.units, required this.filteredUnits})
       : super(key: key) {
     units = List<Unit>.generate(
-        11,
+        10001,
         (i) => Unit(
             id: '$i',
             name: 'Unit$i',
@@ -34,34 +36,23 @@ class _UnitsScreenState extends State<UnitsScreen> {
   }
 
   void filterSearchResults(String query) {
-    // ignore: avoid_print
-    print("filter serach results...");
     List<Unit> dummySearchList = List<Unit>.empty(growable: true);
     dummySearchList.addAll(widget.units);
     if (query.isNotEmpty) {
-      // List<Unit> dummyListData = List<Unit>.empty();
-      //List<Unit> filterList = List<Unit>.empty(growable: true);
-      // ignore: avoid_print
-      print("Unit name: ${widget.units.first.name}");
-      // ignore: avoid_print
-      print("Query: $query widget.units: ${widget.units}");
       final filterList =
           widget.units.where((unit) => unit.name.contains(query));
-      // ignore: avoid_print
-      print("filter list lengtU: ${filterList.length}");
       setState(() {
-        // ignore: avoid_print
-        print("set state...");
-        // ignore: avoid_print
-        print(filterList.length);
-        widget.units.clear();
-        widget.units.addAll(filterList);
+        if (widget.filteredUnits.isNotEmpty) {
+          widget.filteredUnits.clear();
+          widget.filteredUnits.addAll(filterList);
+        }
       });
-      return;
     } else {
       setState(() {
-        widget.units.clear();
-        widget.units.addAll(widget.filteredUnits);
+        if (widget.filteredUnits.isNotEmpty) {
+          widget.filteredUnits.clear();
+          widget.filteredUnits.addAll(widget.units);
+        }
       });
     }
   }
@@ -70,42 +61,43 @@ class _UnitsScreenState extends State<UnitsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Units')),
-      body: Column(children: [
-        const Text('Unit List'),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            onChanged: (value) {
-              // ignore: avoid_print
-              filterSearchResults(value);
-            },
-            controller: editingController,
-            decoration: const InputDecoration(
-                labelText: "Search",
-                hintText: "Search",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)))),
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            controller: ScrollController(),
-            itemCount: widget.units.length,
-            prototypeItem: const ListTile(
-              title: Text('Units'),
+      body: Column(
+        children: [
+          const Text('Unit List'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
+              controller: editingController,
+              decoration: const InputDecoration(
+                  labelText: "Search",
+                  hintText: "Search",
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)))),
             ),
-            itemBuilder: (context, index) {
-              return UnitListTile(
-                id: widget.units[index].id,
-                name: widget.units[index].name,
-                unitClass: widget.units[index].unitClass,
-                unitFunction: widget.units[index].unitFunciton,
-              );
-            },
           ),
-        ),
-      ]),
+          Expanded(
+            child: ListView.builder(
+              controller: ScrollController(),
+              itemCount: widget.filteredUnits.length,
+              prototypeItem: const ListTile(
+                title: Text('Units'),
+              ),
+              itemBuilder: (context, index) {
+                return UnitListTile(
+                  id: widget.filteredUnits[index].id,
+                  name: widget.filteredUnits[index].name,
+                  unitClass: widget.filteredUnits[index].unitClass,
+                  unitFunction: widget.filteredUnits[index].unitFunciton,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
       drawer: const CustomDrawer(),
     );
   }
