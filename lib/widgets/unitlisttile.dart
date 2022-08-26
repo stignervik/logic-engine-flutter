@@ -19,10 +19,19 @@ class UnitListTile extends StatefulWidget {
 class _UnitListTileState extends State<UnitListTile> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.name),
-      subtitle: Text(
-          'id: ${widget.id} class: ${widget.unitClass} func: ${widget.unitFunction}'),
+    return Card(
+      elevation: 6,
+      margin: const EdgeInsets.all(2),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.purple,
+          child: Text(widget.id),
+        ),
+        title: Text(widget.name),
+        subtitle: Text(
+            'id: ${widget.id} class: ${widget.unitClass} func: ${widget.unitFunction}'),
+        trailing: const Icon(Icons.add_a_photo),
+      ),
     );
   }
 }

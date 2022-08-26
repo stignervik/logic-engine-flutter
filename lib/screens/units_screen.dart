@@ -62,7 +62,6 @@ class _UnitsScreenState extends State<UnitsScreen> {
       appBar: AppBar(title: const Text('Units')),
       body: Column(
         children: [
-          const Text('Unit List'),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -79,12 +78,10 @@ class _UnitsScreenState extends State<UnitsScreen> {
             ),
           ),
           Expanded(
+              child: SafeArea(
             child: ListView.builder(
               controller: ScrollController(),
               itemCount: widget.filteredUnits.length,
-              prototypeItem: const ListTile(
-                title: Text('Units'),
-              ),
               itemBuilder: (context, index) {
                 return UnitListTile(
                   id: widget.filteredUnits[index].id,
@@ -94,7 +91,7 @@ class _UnitsScreenState extends State<UnitsScreen> {
                 );
               },
             ),
-          ),
+          )),
           const Footer(),
         ],
       ),

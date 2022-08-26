@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logic_engine_flutter/widgets/drawer.dart';
+import 'package:logic_engine_flutter/widgets/footer.dart';
 
 class Test extends StatefulWidget {
   const Test({super.key});
@@ -8,48 +10,63 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  int _selectedIndex = 0;
+  TextEditingController editingController = TextEditingController();
+
+  // Generate some dummy data
+  final List dummyList = List.generate(1000, (index) {
+    return {
+      "id": index,
+      "title": "This is the title $index",
+      "subtitle": "This is the subtitle $index"
+    };
+  });
+
+  void filterSearchResults(String value) {
+    // ignore: avoid_print
+    print(value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: <Widget>[
-          NavigationRail(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
+      appBar: AppBar(title: const Text('Test')),
+      body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            onChanged: (value) {
+              filterSearchResults(value);
             },
-            labelType: NavigationRailLabelType.selected,
-            destinations: const <NavigationRailDestination>[
-              NavigationRailDestination(
-                icon: Icon(Icons.favorite_border),
-                selectedIcon: Icon(Icons.favorite),
-                label: Text('First'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.bookmark_border),
-                selectedIcon: Icon(Icons.book),
-                label: Text('Second'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.star_border),
-                selectedIcon: Icon(Icons.star),
-                label: Text('Third'),
-              ),
-            ],
+            controller: editingController,
+            decoration: const InputDecoration(
+                labelText: "Search",
+                hintText: "Search",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)))),
           ),
-          const VerticalDivider(thickness: 1, width: 1),
-          // This is the main content.
-          Expanded(
-            child: Center(
-              child: Text('selectedIndex: $_selectedIndex'),
+        ),
+        Expanded(
+            child: ListView.builder(
+          controller: ScrollController(),
+          itemCount: dummyList.length,
+          itemBuilder: (context, index) => Card(
+            elevation: 6,
+            margin: const EdgeInsets.all(10),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.purple,
+                child: Text(dummyList[index]["id"].toString()),
+              ),
+              title: Text(dummyList[index]["title"]),
+              subtitle: Text(dummyList[index]["subtitle"]),
+              trailing: const Icon(Icons.add_a_photo),
             ),
-          )
-        ],
-      ),
+          ),
+        )),
+        const Footer(),
+      ]),
+      drawer: const CustomDrawer(),
     );
   }
 }
