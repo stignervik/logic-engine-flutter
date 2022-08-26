@@ -16,7 +16,10 @@ class SystemsScreens extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => UnitsScreen(items: const [])),
+                  builder: (context) => UnitsScreen(
+                        units: const [],
+                        filteredUnits: const [],
+                      )),
             );
           },
         ),

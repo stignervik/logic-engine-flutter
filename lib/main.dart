@@ -25,7 +25,8 @@ void main() {
       if (settings.name == '/units') {
         return MaterialPageRoute(
             builder: (context) => UnitsScreen(
-                  items: const [],
+                  units: const [],
+                  filteredUnits: const [],
                 ),
             settings: settings);
       }
