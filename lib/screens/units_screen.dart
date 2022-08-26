@@ -8,12 +8,7 @@ import 'package:logic_engine_flutter/providers/units.dart';
 
 // ignore: must_be_immutable
 class UnitsScreen extends StatefulWidget {
-  List<Unit> units;
-  List<Unit> filteredUnits;
-  UnitsScreen({Key? key, required this.units, required this.filteredUnits})
-      : super(key: key) {
-    filteredUnits = List<Unit>.empty();
-  }
+  const UnitsScreen({Key? key}) : super(key: key);
 
   @override
   State<UnitsScreen> createState() => _UnitsScreenState();
@@ -22,30 +17,36 @@ class UnitsScreen extends StatefulWidget {
 class _UnitsScreenState extends State<UnitsScreen> {
   TextEditingController editingController = TextEditingController();
 
+  List<Unit> filteredUnits = List<Unit>.empty();
+
   @override
   void initState() {
-    widget.filteredUnits = widget.filteredUnits.toList();
+    filteredUnits = filteredUnits.toList();
     super.initState();
   }
 
   void filterSearchResults(String query, Units units) {
-    List<Unit> dummySearchList = List<Unit>.empty(growable: true);
-    dummySearchList.addAll(units.units);
+    // ignore: avoid_print
+    print(query);
     if (query.isNotEmpty) {
       final filterList =
           units.units.where((unit) => unit.name.contains(query)).toList();
+      // ignore: avoid_print
+      print(filterList.length);
       setState(() {
-        if (widget.filteredUnits.isNotEmpty) {
-          widget.filteredUnits.clear();
+        if (filteredUnits.isNotEmpty) {
+          filteredUnits.clear();
         }
-        widget.filteredUnits.addAll(filterList);
+        filteredUnits.addAll(filterList);
+        // ignore: avoid_print
+        print('Filtered units: ${filteredUnits.length}');
       });
     } else {
       setState(() {
-        if (widget.filteredUnits.isNotEmpty) {
-          widget.filteredUnits.clear();
+        if (filteredUnits.isNotEmpty) {
+          filteredUnits.clear();
         }
-        widget.filteredUnits.addAll(units.units);
+        filteredUnits.addAll(units.units);
       });
     }
   }
@@ -53,7 +54,9 @@ class _UnitsScreenState extends State<UnitsScreen> {
   @override
   Widget build(BuildContext context) {
     final unitsData = Provider.of<Units>(context);
-    filterSearchResults("", unitsData);
+    // ignore: avoid_print
+    print('unit screen state build...');
+    // filterSearchResults("", unitsData);
 
     // ignore: avoid_print
     print('units length: ${unitsData.units.length}');
@@ -81,13 +84,13 @@ class _UnitsScreenState extends State<UnitsScreen> {
               child: SafeArea(
             child: ListView.builder(
               controller: ScrollController(),
-              itemCount: widget.filteredUnits.length,
+              itemCount: filteredUnits.length,
               itemBuilder: (context, index) {
                 return UnitListTile(
-                  id: widget.filteredUnits[index].id,
-                  name: widget.filteredUnits[index].name,
-                  unitClass: widget.filteredUnits[index].unitClass,
-                  unitFunction: widget.filteredUnits[index].unitFunciton,
+                  id: filteredUnits[index].id,
+                  name: filteredUnits[index].name,
+                  unitClass: filteredUnits[index].unitClass,
+                  unitFunction: filteredUnits[index].unitFunciton,
                 );
               },
             ),

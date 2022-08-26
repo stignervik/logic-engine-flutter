@@ -29,11 +29,7 @@ void main() {
 
         if (settings.name == '/units') {
           return MaterialPageRoute(
-              builder: (context) => UnitsScreen(
-                    units: const [],
-                    filteredUnits: const [],
-                  ),
-              settings: settings);
+              builder: (context) => const UnitsScreen(), settings: settings);
         }
 
         if (settings.name == '/test') {
@@ -53,11 +49,7 @@ class LogicEngineApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (ctx) => Units(),
-        child: UnitsScreen(
-          filteredUnits: const [],
-          units: const [],
-        ));
+        create: (ctx) => Units(), child: const UnitsScreen());
   }
 }
 

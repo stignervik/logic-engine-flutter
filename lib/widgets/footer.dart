@@ -20,7 +20,7 @@ class _FooterState extends State<Footer> {
             Expanded(
                 child: Text(
               textAlign: TextAlign.center,
-              'Fotter',
+              'Footer',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             )),
