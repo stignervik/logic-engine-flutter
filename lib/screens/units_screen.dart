@@ -18,6 +18,7 @@ class _UnitsScreenState extends State<UnitsScreen> {
   TextEditingController editingController = TextEditingController();
 
   List<Unit> filteredUnits = List<Unit>.empty();
+  String _query = "";
 
   @override
   void initState() {
@@ -25,12 +26,12 @@ class _UnitsScreenState extends State<UnitsScreen> {
     super.initState();
   }
 
-  void filterSearchResults(String query, Units units) {
+  void filterSearchResults(Units units) {
     // ignore: avoid_print
-    print(query);
-    if (query.isNotEmpty) {
+    print(_query);
+    if (_query.isNotEmpty) {
       final filterList =
-          units.units.where((unit) => unit.name.contains(query)).toList();
+          units.units.where((unit) => unit.name.contains(_query)).toList();
       // ignore: avoid_print
       print(filterList.length);
       setState(() {
@@ -56,7 +57,11 @@ class _UnitsScreenState extends State<UnitsScreen> {
     final unitsData = Provider.of<Units>(context);
     // ignore: avoid_print
     print('unit screen state build...');
-    // filterSearchResults("", unitsData);
+
+    // initialize the filterList with the units model which store all units
+    if (_query.isEmpty) {
+      filteredUnits.addAll(unitsData.units);
+    }
 
     // ignore: avoid_print
     print('units length: ${unitsData.units.length}');
@@ -69,7 +74,8 @@ class _UnitsScreenState extends State<UnitsScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                filterSearchResults(value, unitsData);
+                _query = value;
+                filterSearchResults(unitsData);
               },
               controller: editingController,
               decoration: const InputDecoration(
