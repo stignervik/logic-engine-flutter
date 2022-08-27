@@ -20,4 +20,25 @@ class Units with ChangeNotifier {
     // ignore: avoid_print
     print('number of units: ${_units.length}');
   }
+
+  void selectUnit(bool select, String id) {
+    //ignore: avoid_print
+    print('selectUnit $select id: $id');
+    for (var unit in _units) {
+      if (unit.id == id) {
+        unit.selected = select;
+      }
+    }
+  }
+
+  bool isUnitSelected(String id) {
+    bool isSelected = false;
+    for (var unit in _units) {
+      if (unit.id == id) {
+        isSelected = unit.selected;
+      }
+    }
+
+    return isSelected;
+  }
 }

@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/units.dart';
 
 class UnitListTile extends StatefulWidget {
   final String id;
   final String name;
   final String unitClass;
   final String unitFunction;
-  const UnitListTile(
-      {super.key,
-      required this.id,
-      required this.name,
-      required this.unitClass,
-      required this.unitFunction});
+  bool selected;
+  UnitListTile({
+    super.key,
+    required this.id,
+    required this.name,
+    required this.unitClass,
+    required this.unitFunction,
+    this.selected = false,
+  });
 
   @override
   State<UnitListTile> createState() => _UnitListTileState();
@@ -33,6 +39,7 @@ class _UnitListTileState extends State<UnitListTile> {
 
   @override
   Widget build(BuildContext context) {
+    final unitsData = Provider.of<Units>(context);
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(2),
@@ -52,10 +59,12 @@ class _UnitListTileState extends State<UnitListTile> {
             Checkbox(
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: isChecked,
+              value: unitsData.isUnitSelected(widget.id),
               onChanged: (bool? value) {
                 setState(() {
                   isChecked = value!;
+                  unitsData.selectUnit(isChecked, widget.id);
+                  widget.selected = isChecked;
                 });
               },
             ),
