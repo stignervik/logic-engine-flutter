@@ -15,7 +15,7 @@ class UnitsScreen extends StatefulWidget {
 }
 
 class _UnitsScreenState extends State<UnitsScreen> {
-  TextEditingController editingController = TextEditingController();
+  TextEditingController _editingController = TextEditingController();
 
   List<Unit> filteredUnits = List<Unit>.empty();
   String _query = "";
@@ -52,6 +52,12 @@ class _UnitsScreenState extends State<UnitsScreen> {
     }
   }
 
+  void _clearSearch() {
+    _editingController.clear();
+    // Call setState to update the UI
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final unitsData = Provider.of<Units>(context);
@@ -77,12 +83,17 @@ class _UnitsScreenState extends State<UnitsScreen> {
                 _query = value;
                 filterSearchResults(unitsData);
               },
-              controller: editingController,
-              decoration: const InputDecoration(
+              controller: _editingController,
+              decoration: InputDecoration(
                   labelText: "Search",
                   hintText: "Search",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: _editingController.text.isEmpty
+                      ? null
+                      : IconButton(
+                          onPressed: _clearSearch,
+                          icon: const Icon(Icons.clear)),
+                  border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(5.0)))),
             ),
           ),
